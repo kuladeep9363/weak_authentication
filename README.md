@@ -34,7 +34,7 @@ hospital/
 ├── database.py
 ├── generate_assets.py
 ├── requirements.txt
-├── hospital.db                 # created by database initialization
+├── hospital.db                 # created by database initialization(database.py)
 ├── templates/
 │   ├── base.html
 │   ├── dashboard.html
@@ -46,7 +46,7 @@ hospital/
 │   │   └── style.css
 │   └── js/
 │       └── portal.js
-├── documents/
+├── documents/                   # created by generate_assets.py
 │   ├── research_notes.txt
 │   ├── patient_summary.txt
 │   ├── monthly_review.txt
