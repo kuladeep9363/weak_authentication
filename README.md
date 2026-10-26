@@ -93,17 +93,11 @@ included when sharing the project with another person.
 
 Choose either a native Python installation or Docker.
 
-### Option A --- Python
+### Python
 
 -   Python 3.10 or later (Python 3.12 is a good choice)
 -   `pip`
 -   A terminal
-
-### Option B --- Docker
-
--   Docker Engine or Docker Desktop
-
-No database, Nginx, or external service is required.
 
 ## 5. Run locally with Python
 
@@ -160,26 +154,7 @@ The Flask application listens on `0.0.0.0:5000` to permit network
 access. Allow port `5000` through the firewall only when required for
 the isolated lab.
 
-## 6. Run with Docker
-
-Build the image from the directory containing the Dockerfile:
-
-``` bash
-docker build -t byteforge-employee-portal .
-```
-
-Run the container:
-
-``` bash
-docker run --rm --name byteforge-portal -p 5000:5000 byteforge-employee-portal
-```
-
-Open `http://127.0.0.1:5000`.
-
-Stop the container with `Ctrl+C`. The `--rm` option removes the stopped
-container; the image remains available.
-
-## 7. Verify the cookie vulnerability
+## 6. Verify the cookie vulnerability
 
 1.  Open the portal in a browser.
 
@@ -246,36 +221,7 @@ curl -i --cookie 'auth=YWJjMTIz' \
 Expected: HTTP `401` with an authentication error. It must not reveal
 the flag.
 
-## 8. Secondary objective --- Nmap
-
-From a different machine on the same lab network, scan the host running
-the application:
-
-``` bash
-nmap -sV -p 5000 --script http-title,http-headers <HOST_IP>
-```
-
-The application adds these HTTP response headers:
-
-``` http
-Server: ByteForge Technologies Employee Portal
-X-Company: ByteForge Technologies
-```
-
-The HTTP title should also identify the Employee Portal. Nmap's exact
-service/product label varies with its version and probe results; the
-`http-headers` script is the most direct way to verify the custom
-company header.
-
-If the scan fails:
-
--   Confirm the Flask app is running.
--   Check that port `5000` is reachable from the scanning machine.
--   Check the host firewall and container port mapping.
--   Ensure both machines are on a network where they are permitted to
-    communicate.
-
-## 9. Expected behavior checklist
+## 7. Expected behavior checklist
 
   -----------------------------------------------------------------------
   Request / state                     Expected behavior
@@ -298,44 +244,7 @@ If the scan fails:
                                       the response headers
   -----------------------------------------------------------------------
 
-## 10. Troubleshooting
-
-### `ModuleNotFoundError: No module named 'flask'`
-
-Activate the virtual environment and run:
-
-``` bash
-python -m pip install -r requirements.txt
-```
-
-### Port 5000 is already in use
-
-Stop the other process using port `5000`, or change the port in the
-`app.run(...)` line and update the browser URL, curl commands, Docker
-mapping, and Nmap command accordingly.
-
-### The cookie does not change to admin
-
--   Confirm the entire cookie value was replaced, without extra spaces
-    or quotes.
--   Refresh `/dashboard` after changing the cookie.
--   Make sure you are editing the cookie for the correct host and port.
--   Confirm the value is exactly `cm9sZT1hZG1pbgo=`.
-
-### The admin profile is not changing
-
-Check that the `/profile` route calls `get_role()` and passes the
-role-dependent template values (`role`, `employee_id`, `department`, and
-`access_level`). Check that `templates/profile.html` renders those
-variables.
-
-### A malformed cookie reveals the flag
-
-The role parser must accept only the exact recognized values
-`role=user\\n` and `role=admin\\n`. Unknown, malformed, or undecodable
-values must return no role and must never default to `admin`.
-
-## 11. Important implementation notes
+## 8. Important implementation notes
 
 -   The cookie is deliberately unsigned and client-controlled. This is
     the intended challenge vulnerability.
@@ -351,7 +260,7 @@ values must return no role and must never default to `admin`.
 -   Keep the challenge on an isolated CTF network and do not reuse real
     credentials or secrets.
 
-## 12. Quick start summary
+## 9. Quick start summary
 
 ``` bash
 # From the project directory
