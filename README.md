@@ -53,7 +53,6 @@ Create or obtain the project with the following layout:
 employee-portal/
 ├── app.py
 ├── requirements.txt
-├── Dockerfile
 ├── templates/
 │   ├── base.html
 │   ├── index.html
