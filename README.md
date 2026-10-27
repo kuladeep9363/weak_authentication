@@ -135,24 +135,6 @@ python -m pip install -r requirements.txt
 python app.py
 ```
 
-### Open the portal
-
-On the same computer, visit:
-
-``` text
-http://127.0.0.1:5000
-```
-
-To access it from another machine on the same isolated lab network, use
-the host computer's reachable IP address:
-
-``` text
-http://<HOST_IP>:5000
-```
-
-The Flask application listens on `0.0.0.0:5000` to permit network
-access. Allow port `5000` through the firewall only when required for
-the isolated lab.
 
 ## 6. Verify the cookie vulnerability
 
